@@ -1,23 +1,16 @@
-// backend/index.js
-
 const express = require('express');
 const mongoose = require('mongoose');
-const cors = require('cors'); // Import CORS middleware
+const cors = require('cors');
 require('dotenv').config();
-const db = require('./config/db');
 const usersRouter = require('./routes/users');
 
 const app = express();
 const PORT = process.env.PORT || 3001;
 
-// Middleware
-app.use(cors()); // Enable CORS for all routes
+app.use(cors());
 app.use(express.json());
-
-// Routes
 app.use('/api/users', usersRouter);
 
-// Connect to MongoDB
 mongoose.connect(process.env.MONGODB_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
@@ -32,7 +25,6 @@ connection.on('error', (err) => {
   console.error(`MongoDB connection error: ${err}`);
 });
 
-// Start server
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
