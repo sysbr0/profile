@@ -14,8 +14,9 @@ app.use('/api/users', usersRouter);
 mongoose.connect(process.env.MONGODB_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
-  useCreateIndex: true,
+  // Remove useCreateIndex option here
 });
+
 
 const connection = mongoose.connection;
 connection.on('connected', () => {
