@@ -1,36 +1,40 @@
-// backend/routes/users.js
+
+
+// index.js
+
 const express = require('express');
-const router = express.Router();
-const User = require('../models/user');
+const mongoose = require('mongoose');
+const cors = require('cors'); // Import CORS middleware
+require('dotenv').config();
+const usersRouter = require('./routes/users');
+const repositoriesRouter = require('./routes/repositories'); // Add this line
 
-// GET all users
-router.get('/', async (req, res) => {
-  try {
-    const users = await User.find();
-    res.json(users);
-  } catch (err) {
-    console.error('Error fetching users:', err);
-    res.status(500).json({ message: 'Server error' });
-  }
+const app = express();
+const PORT = process.env.PORT || 3001;
+
+// Middleware
+app.use(cors()); // Enable CORS for all routes
+app.use(express.json());
+
+// Routes
+app.use('/api/users', usersRouter);
+app.use('/api/repositories', repositoriesRouter); // Add this line
+
+// Connect to MongoDB
+mongoose.connect(process.env.MONGODB_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
 });
 
-// POST a new user
-router.post('/', async (req, res) => {
-  const { name, email, password } = req.body;
-
-  try {
-    const newUser = new User({
-      name,
-      email,
-      password, // Note: Password should be hashed before saving to DB
-    });
-
-    const savedUser = await newUser.save();
-    res.status(201).json(savedUser);
-  } catch (err) {
-    console.error('Error creating user:', err);
-    res.status(500).json({ message: 'Server error' });
-  }
+const connection = mongoose.connection;
+connection.on('connected', () => {
+  console.log('Connected to MongoDB');
+});
+connection.on('error', (err) => {
+  console.error(`MongoDB connection error: ${err}`);
 });
 
-module.exports = router;
+// Start server
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
