@@ -6,12 +6,12 @@ const Repository = require('../models/repository');
 router.get('/', async (req, res) => {
   try {
     const repositories = await Repository.find();
-    console.log('Fetched repositories:', repositories); // Debugging line
     res.json(repositories);
   } catch (err) {
-    console.error('Error fetching repositories:', err); // Debugging line
     res.status(500).json({ message: err.message });
   }
 });
+
+// Other routes (CRUD operations) can go here
 
 module.exports = router;

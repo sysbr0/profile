@@ -1,26 +1,13 @@
 const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
 
-const repositorySchema = new mongoose.Schema({
-  language: {
-    type: String,
-    required: true
-  },
-  title: {
-    type: String,
-    required: true
-  },
-  description: {
-    type: String,
-    required: true
-  },
-  img: {
-    type: String,
-    required: true
-  },
-  createdAt: {
-    type: Date,
-    default: Date.now
-  }
-});
+const repositorySchema = new Schema({
+  language: { type: String, required: true },
+  title: { type: String, required: true },
+  description: { type: String, required: true },
+  img: { type: String, required: true }
+}, { timestamps: true });
 
-module.exports = mongoose.model('Repository', repositorySchema);
+const Repository = mongoose.model('Repository', repositorySchema);
+
+module.exports = Repository;
