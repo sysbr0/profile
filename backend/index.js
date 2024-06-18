@@ -3,7 +3,23 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 require('dotenv').config();
 
+const path = require('path');
+const fs = require('fs');
+
 const usersRouter = require('./routes/users');
+
+// Debugging: Verify the path to repository.js
+const repositoryPath = path.resolve(__dirname, '../models/repository.js');
+console.log('Resolved repository path:', repositoryPath);
+
+if (fs.existsSync(repositoryPath)) {
+  console.log('Repository model found:', repositoryPath);
+} else {
+  console.log('Repository model not found:', repositoryPath);
+}
+
+const Repository = require(repositoryPath); // Using dynamic path resolution for debug
+
 const repositoriesRouter = require('./routes/repositories');
 
 const app = express();
