@@ -29,7 +29,7 @@ connection.on('connected', () => {
 });
 connection.on('error', (err) => {
   console.error(`MongoDB connection error: ${err}`);
-});
+}); // weilcome
 
 // Start server
 app.listen(PORT, () => {
